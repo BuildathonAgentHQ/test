@@ -1,372 +1,66 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Meta Tags -->
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="description" content="Enhanced Dashboard App - A feature-rich application with counter, todo list, history tracking, and settings management" />
-    <meta name="keywords" content="dashboard, counter, todo, app, productivity, vanilla-js, vite" />
-    <meta name="author" content="BuildathonAgentHQ" />
-    <meta name="theme-color" content="#2563eb" />
-    
-    <!-- PWA Meta Tags -->
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="Dashboard" />
-    
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Enhanced Dashboard App" />
-    <meta property="og:description" content="A feature-rich dashboard with counter, todo list, and history tracking" />
-    <meta property="og:type" content="website" />
-    <meta property="og:locale" content="en_US" />
-    
-    <!-- Favicon and Icons -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75' fill='%232563eb'>📊</text></svg>" />
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect fill='%232563eb' width='180' height='180' rx='40'/><text x='90' y='135' font-size='100' fill='white' text-anchor='middle'>📊</text></svg>" />
-    
-    <!-- SEO and Performance -->
-    <link rel="canonical" href="https://example.com/" />
-    <link rel="manifest" href="/manifest.json" />
-    <link rel="dns-prefetch" href="https://example.com" />
-    
-    <!-- Title -->
-    <title>Enhanced Dashboard App - Counter, Todo & More</title>
-    
-    <!-- Additional Meta Tags for Accessibility -->
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="robots" content="index, follow" />
-    <meta name="language" content="en-US" />
-    
-    <!-- Main Stylesheet -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Aurora Focus — A beautiful space-themed productivity dashboard" />
+    <title>Aurora Focus</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🌌</text></svg>" />
     <link rel="stylesheet" href="/src/index.css" />
-    
-    <!-- Inline Critical CSS for Faster Rendering -->
-    <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      html, body, #root { height: 100%; width: 100%; }
-      body { 
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
-        background: #f7f7fb;
-        color: #1f2937;
-        overflow-x: hidden;
-      }
-      .hidden { display: none !important; }
-    </style>
   </head>
   <body>
-    <!-- Root Container -->
-    <div id="root">
-      <!-- App Wrapper -->
-      <div class="app-wrapper">
-        
-        <!-- Header -->
-        <header class="app-header">
-          <div class="header-content">
-            <h1 class="app-title">📊 Dashboard</h1>
-            <p class="app-subtitle">Counter • Todo List • History • Settings</p>
-          </div>
-        </header>
+    <canvas id="canvas"></canvas>
 
-        <!-- Main App Container -->
-        <div class="app-container">
-          
-          <!-- Navigation Sidebar -->
-          <nav class="app-nav">
-            <button class="nav-btn active" data-tab="counter">
-              <span class="nav-icon">🔢</span>
-              <span class="nav-label">Counter</span>
-            </button>
-            <button class="nav-btn" data-tab="todo">
-              <span class="nav-icon">✓</span>
-              <span class="nav-label">Todo List</span>
-              <span class="badge" id="todo-badge" style="display: none;">0</span>
-            </button>
-            <button class="nav-btn" data-tab="history">
-              <span class="nav-icon">📈</span>
-              <span class="nav-label">History</span>
-            </button>
-            <button class="nav-btn" data-tab="settings">
-              <span class="nav-icon">⚙️</span>
-              <span class="nav-label">Settings</span>
-            </button>
-          </nav>
+    <div class="ui-overlay">
 
-          <!-- Main Content Area -->
-          <main class="app-content">
-            
-            <!-- Counter Tab -->
-            <section class="tab-content active" id="counter-tab">
-              <div class="counter-container">
-                <div class="counter-card">
-                  <h2>Counter</h2>
-                  <div class="counter-display">
-                    <div class="count-value" id="count-display">0</div>
-                    <div class="count-label">Current Count</div>
-                  </div>
-
-                  <div class="counter-controls">
-                    <button class="btn btn-secondary" id="btn-decrease" title="Decrease by 1">
-                      <span class="btn-icon">−</span>
-                      <span class="btn-text">Decrease</span>
-                    </button>
-                    <button class="btn btn-primary" id="btn-increase" title="Increase by 1">
-                      <span class="btn-text">Increase</span>
-                      <span class="btn-icon">+</span>
-                    </button>
-                  </div>
-
-                  <div class="counter-secondary-controls">
-                    <button class="btn btn-small" id="btn-add10" title="Increase by 10">+10</button>
-                    <button class="btn btn-small" id="btn-sub10" title="Decrease by 10">−10</button>
-                    <button class="btn btn-small" id="btn-add5" title="Increase by 5">+5</button>
-                    <button class="btn btn-small" id="btn-sub5" title="Decrease by 5">−5</button>
-                  </div>
-
-                  <div class="counter-custom">
-                    <button class="btn btn-tertiary" id="btn-custom-toggle">Set Custom Value</button>
-                    <div id="custom-input-group" class="custom-input-group hidden">
-                      <input type="number" id="custom-value-input" placeholder="Enter a number">
-                      <button class="btn btn-small" id="btn-custom-set">Set</button>
-                    </div>
-                  </div>
-
-                  <div class="counter-actions">
-                    <button class="btn btn-reset" id="btn-reset">🔄 Reset</button>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            <!-- Todo Tab -->
-            <section class="tab-content" id="todo-tab">
-              <div class="todo-container">
-                <div class="todo-card">
-                  <h2>Todo List</h2>
-
-                  <div class="todo-progress">
-                    <div class="progress-info">
-                      <span class="progress-label">Progress</span>
-                      <span class="progress-stat"><span id="completed-count">0</span> / <span id="total-count">0</span></span>
-                    </div>
-                    <div class="progress-bar">
-                      <div class="progress-fill" id="progress-fill"></div>
-                    </div>
-                  </div>
-
-                  <div class="todo-input-group">
-                    <input type="text" id="todo-input" placeholder="Add a new todo..." class="todo-input" maxlength="200">
-                    <button class="btn btn-primary" id="btn-add-todo">Add Todo</button>
-                  </div>
-
-                  <div class="todo-controls">
-                    <div class="control-group">
-                      <label for="sort-select">Sort by:</label>
-                      <select id="sort-select" class="select-control">
-                        <option value="date-desc">Newest First</option>
-                        <option value="date-asc">Oldest First</option>
-                        <option value="pending">Pending First</option>
-                        <option value="completed">Completed First</option>
-                      </select>
-                    </div>
-
-                    <div class="control-group">
-                      <label for="filter-select">Filter:</label>
-                      <select id="filter-select" class="select-control">
-                        <option value="all">All</option>
-                        <option value="pending">Pending</option>
-                        <option value="completed">Completed</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div id="todos-list" class="todos-list"></div>
-
-                  <div class="todo-empty" id="todo-empty">
-                    <p>No todos yet. Add one to get started!</p>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            <!-- History Tab -->
-            <section class="tab-content" id="history-tab">
-              <div class="history-container">
-                <div class="history-card">
-                  <div class="history-header">
-                    <h2>Counter History</h2>
-                    <div class="history-toggle">
-                      <button class="toggle-btn active" id="btn-stats-view">Stats</button>
-                      <button class="toggle-btn" id="btn-log-view">Log</button>
-                    </div>
-                  </div>
-
-                  <!-- Stats View -->
-                  <div class="stats-section" id="stats-section">
-                    <div id="stats-grid" class="stats-grid"></div>
-                    <div class="empty-state" id="stats-empty">
-                      <p class="empty-message">No counter history yet. Start counting!</p>
-                    </div>
-                  </div>
-
-                  <!-- Log View -->
-                  <div class="log-section hidden" id="log-section">
-                    <div class="log-controls">
-                      <span class="log-count" id="log-count">0 changes</span>
-                      <button class="btn btn-small btn-danger" id="btn-clear-history">Clear History</button>
-                    </div>
-                    <div id="history-log" class="history-log"></div>
-                    <div class="empty-state" id="log-empty">
-                      <p class="empty-message">No counter changes yet.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            <!-- Settings Tab -->
-            <section class="tab-content" id="settings-tab">
-              <div class="settings-container">
-                <div class="settings-card">
-                  <h2>Settings</h2>
-
-                  <div class="settings-section">
-                    <h3>Appearance</h3>
-                    <div class="setting-item">
-                      <div class="setting-label">
-                        <span class="label-text">Theme</span>
-                        <span class="label-description">Choose your preferred color theme</span>
-                      </div>
-                      <div class="theme-options">
-                        <label class="theme-option">
-                          <input type="radio" name="theme" value="light" class="theme-radio">
-                          <span class="theme-label">☀️ Light</span>
-                        </label>
-                        <label class="theme-option">
-                          <input type="radio" name="theme" value="dark" class="theme-radio">
-                          <span class="theme-label">🌙 Dark</span>
-                        </label>
-                        <label class="theme-option">
-                          <input type="radio" name="theme" value="auto" class="theme-radio">
-                          <span class="theme-label">🔄 Auto</span>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="settings-section">
-                    <h3>Data Management</h3>
-                    <div class="setting-item">
-                      <div class="setting-label">
-                        <span class="label-text">Export Data</span>
-                        <span class="label-description">Download all your data as JSON</span>
-                      </div>
-                      <div class="setting-action">
-                        <button class="btn btn-primary" id="btn-export-data">📥 Export as JSON</button>
-                        <span class="success-message hidden" id="export-success">✓ Exported successfully!</span>
-                      </div>
-                    </div>
-
-                    <div class="setting-item">
-                      <div class="setting-label">
-                        <span class="label-text">Reset Application</span>
-                        <span class="label-description">Clear all data and reset to default state</span>
-                      </div>
-                      <div class="setting-action">
-                        <button class="btn btn-danger-large" id="btn-reset-app">🔄 Reset All Data</button>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="settings-section">
-                    <h3>About</h3>
-                    <div class="about-info">
-                      <div class="info-item">
-                        <span class="info-label">Application</span>
-                        <span class="info-value">Enhanced Dashboard App</span>
-                      </div>
-                      <div class="info-item">
-                        <span class="info-label">Version</span>
-                        <span class="info-value">3.0.0</span>
-                      </div>
-                      <div class="info-item">
-                        <span class="info-label">Built With</span>
-                        <span class="info-value">Vanilla JS, HTML, CSS</span>
-                      </div>
-                      <div class="info-item">
-                        <span class="info-label">License</span>
-                        <span class="info-value">MIT</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-          </main>
-        </div>
-
-        <!-- Footer -->
-        <footer class="app-footer">
-          <p>&copy; 2026 BuildathonAgentHQ. All rights reserved. | Vanilla JavaScript Dashboard</p>
-        </footer>
-
+      <!-- Clock Panel -->
+      <div class="panel clock-panel">
+        <div class="clock-time" id="clock-time">00:00:00</div>
+        <div class="clock-date" id="clock-date">Loading…</div>
       </div>
+
+      <!-- Timer Panel -->
+      <div class="panel timer-panel">
+        <div class="timer-label" id="timer-label">FOCUS</div>
+        <div class="timer-ring-wrap">
+          <svg class="timer-ring" viewBox="0 0 120 120">
+            <circle class="timer-ring-bg" cx="60" cy="60" r="52" />
+            <circle class="timer-ring-fill" id="timer-ring-fill" cx="60" cy="60" r="52" />
+          </svg>
+          <div class="timer-display" id="timer-display">25:00</div>
+        </div>
+        <div class="timer-controls">
+          <button class="ctrl-btn" id="btn-timer-toggle" title="Start / Pause">&#9654;</button>
+          <button class="ctrl-btn" id="btn-timer-reset" title="Reset">&#8635;</button>
+          <button class="ctrl-btn mode-btn" id="btn-timer-mode" title="Switch mode">5m</button>
+        </div>
+        <div class="timer-sessions">
+          <span id="session-dots"></span>
+          <span class="session-label" id="session-count">Session 1</span>
+        </div>
+      </div>
+
+      <!-- Todo Panel -->
+      <div class="panel todo-panel">
+        <div class="panel-title">Quick Notes</div>
+        <div class="todo-input-row">
+          <input class="todo-input" id="todo-input" type="text" placeholder="Add a task…" maxlength="80" />
+          <button class="add-btn" id="btn-add-todo">+</button>
+        </div>
+        <ul class="todo-list" id="todo-list"></ul>
+        <div class="todo-empty" id="todo-empty">Nothing here — go create!</div>
+      </div>
+
     </div>
 
-    <!-- Main JavaScript Application -->
+    <!-- Ambient sound toggle -->
+    <button class="sound-btn" id="btn-sound" title="Toggle ambient sound">
+      <span id="sound-icon">♪</span>
+    </button>
+
+    <!-- Keyboard hint -->
+    <div class="hint">Space: start/pause &nbsp;·&nbsp; R: reset &nbsp;·&nbsp; M: switch mode</div>
+
     <script type="module" src="/src/main.js"></script>
-
-    <!-- Fallback for JavaScript Disabled -->
-    <noscript>
-      <div style="
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: system-ui, sans-serif;
-        background: #f7f7fb;
-      ">
-        <div style="
-          text-align: center;
-          padding: 20px;
-          background: white;
-          border-radius: 8px;
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-          max-width: 400px;
-        ">
-          <h1 style="color: #1f2937; margin-bottom: 12px;">⚠️ JavaScript Required</h1>
-          <p style="color: #6b7280; line-height: 1.6;">
-            This application requires JavaScript to be enabled. 
-            Please enable JavaScript in your browser settings and try again.
-          </p>
-        </div>
-      </div>
-    </noscript>
-
-    <!-- Service Worker Registration -->
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js').catch(() => {});
-        });
-      }
-      
-      const savedTheme = localStorage.getItem('theme') || 'light';
-      const theme = savedTheme === 'auto' 
-        ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
-        : savedTheme;
-      document.documentElement.setAttribute('data-theme', theme);
-      
-      window.addEventListener('load', () => {
-        const perfData = window.performance.timing;
-        const pageLoadTime = perfData.loadEventEnd - perfData.navigationStart;
-        console.log('Page load time:', pageLoadTime, 'ms');
-      });
-    </script>
   </body>
 </html>
-
-
