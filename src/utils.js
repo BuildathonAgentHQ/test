@@ -44,6 +44,20 @@ export const formatTime = (timestamp) => {
 /**
  * Calculate statistics from counter history
  */
+export const calculateStats = (history) => {
+  if (history.length === 0) {
+    return { max: 0, min: 0, avg: 0, total: 0 };
+  }
+
+  const resultValues = history.map(h => h.resultValue);
+  const max = Math.max(...resultValues);
+  const min = Math.min(...resultValues);
+  const avg = (resultValues.reduce((a, b) => a + b, 0) / resultValues.length).toFixed(2);
+  const total = history.length;
+
+  return { max, min, avg: parseFloat(avg), total };
+};
+
 /**
  * Generate a report with detailed statistics
  */
@@ -54,20 +68,6 @@ export const generateReportData = (history) => {
     generatedAt: Date.now(),
     historyCount: history.length
   };
-};
-
-export const calculateStats = (history) => {
-  if (history.length === 0) {
-    return { max: 0, min: 0, avg: 0, total: 0 };
-  }
-
-  const values = history.map(h => h.value);
-  const max = Math.max(...values);
-  const min = Math.min(...values);
-  const avg = (values.reduce((a, b) => a + b, 0) / values.length).toFixed(2);
-  const total = values.length;
-
-  return { max, min, avg: parseFloat(avg), total };
 };
 
 /**
@@ -85,7 +85,7 @@ export const validateTodo = (todo) => {
 };
 
 /**
- * Sort todos by date
+ * Sort todos by criteria
  */
 export const sortTodos = (todos, sortBy = 'date-desc') => {
   const sorted = [...todos];
@@ -105,6 +105,51 @@ export const sortTodos = (todos, sortBy = 'date-desc') => {
 };
 
 /**
+ * Export data as JSON file
+ */
+export const exportData = (data, filename) => {
+  const jsonString = JSON.stringify(data, null, 2);
+  const blob = new Blob([jsonString], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+};
+
+/**
+ * Get application analytics
+ */
+export const getAppAnalytics = (state) => {
+  return {
+    totalCounterChanges: state.history.length,
+    totalTodos: state.todos.length,
+    completedTodos: state.todos.filter(t => t.completed).length,
+    pendingTodos: state.todos.filter(t => !t.completed).length,
+    currentCount: state.count,
+    currentTheme: state.theme,
+    appStartTime: new Date().toISOString()
+  };
+};
+
+/**
+ * Clear all application data
+ */
+export const clearAllData = () => {
+  localStorage.clear();
+  location.reload();
+};
+
+/**
+ * Get application version
+ */
+export const getAppVersion = () => {
+  return '3.0.0';
+};
+
  * Export data as JSON
  */
 export const exportData = (data, filename) => {

@@ -8,10 +8,7 @@
     "build": "vite build",
     "preview": "vite preview"
   },
-  "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "vite": "^5.0.0"
   },
@@ -21,5 +18,5 @@
     "type": "git",
     "url": "https://github.com/BuildathonAgentHQ/test.git"
   },
-  "keywords": ["counter", "todo", "react", "vite", "dashboard"]
+  "keywords": ["counter", "todo", "vanilla-js", "vite", "dashboard"]
 }

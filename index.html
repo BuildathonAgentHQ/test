@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="description" content="Enhanced Dashboard App - A feature-rich application with counter, todo list, history tracking, and settings management" />
-    <meta name="keywords" content="dashboard, counter, todo, app, productivity, react, vite" />
+    <meta name="keywords" content="dashboard, counter, todo, app, productivity, vanilla-js, vite" />
     <meta name="author" content="BuildathonAgentHQ" />
     <meta name="theme-color" content="#2563eb" />
     
@@ -26,10 +26,6 @@
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75' fill='%232563eb'>📊</text></svg>" />
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect fill='%232563eb' width='180' height='180' rx='40'/><text x='90' y='135' font-size='100' fill='white' text-anchor='middle'>📊</text></svg>" />
     
-    <!-- Preload Critical Resources -->
-    <link rel="preload" as="style" href="/src/index.css" />
-    <link rel="preload" as="script" href="/src/main.jsx" type="module" />
-    
     <!-- SEO and Performance -->
     <link rel="canonical" href="https://example.com/" />
     <link rel="manifest" href="/manifest.json" />
@@ -43,6 +39,9 @@
     <meta name="robots" content="index, follow" />
     <meta name="language" content="en-US" />
     
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="/src/index.css" />
+    
     <!-- Inline Critical CSS for Faster Rendering -->
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -53,50 +52,272 @@
         color: #1f2937;
         overflow-x: hidden;
       }
-      #root { display: flex; }
-      .app-loading {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(135deg, #f7f7fb 0%, #ffffff 100%);
-      }
-      .loading-spinner {
-        width: 50px;
-        height: 50px;
-        border: 4px solid #e5e7eb;
-        border-top-color: #2563eb;
-        border-radius: 50%;
-        animation: spin 0.8s linear infinite;
-      }
-      @keyframes spin {
-        to { transform: rotate(360deg); }
-      }
-      .loading-text {
-        position: absolute;
-        bottom: 20%;
-        font-size: 14px;
-        color: #6b7280;
-        font-weight: 500;
-      }
+      .hidden { display: none !important; }
     </style>
   </head>
   <body>
-    <!-- Root Container for React App -->
+    <!-- Root Container -->
     <div id="root">
-      <!-- Loading State -->
-      <div class="app-loading">
-        <div>
-          <div class="loading-spinner"></div>
-          <p class="loading-text">Loading Dashboard...</p>
+      <!-- App Wrapper -->
+      <div class="app-wrapper">
+        
+        <!-- Header -->
+        <header class="app-header">
+          <div class="header-content">
+            <h1 class="app-title">📊 Dashboard</h1>
+            <p class="app-subtitle">Counter • Todo List • History • Settings</p>
+          </div>
+        </header>
+
+        <!-- Main App Container -->
+        <div class="app-container">
+          
+          <!-- Navigation Sidebar -->
+          <nav class="app-nav">
+            <button class="nav-btn active" data-tab="counter">
+              <span class="nav-icon">🔢</span>
+              <span class="nav-label">Counter</span>
+            </button>
+            <button class="nav-btn" data-tab="todo">
+              <span class="nav-icon">✓</span>
+              <span class="nav-label">Todo List</span>
+              <span class="badge" id="todo-badge" style="display: none;">0</span>
+            </button>
+            <button class="nav-btn" data-tab="history">
+              <span class="nav-icon">📈</span>
+              <span class="nav-label">History</span>
+            </button>
+            <button class="nav-btn" data-tab="settings">
+              <span class="nav-icon">⚙️</span>
+              <span class="nav-label">Settings</span>
+            </button>
+          </nav>
+
+          <!-- Main Content Area -->
+          <main class="app-content">
+            
+            <!-- Counter Tab -->
+            <section class="tab-content active" id="counter-tab">
+              <div class="counter-container">
+                <div class="counter-card">
+                  <h2>Counter</h2>
+                  <div class="counter-display">
+                    <div class="count-value" id="count-display">0</div>
+                    <div class="count-label">Current Count</div>
+                  </div>
+
+                  <div class="counter-controls">
+                    <button class="btn btn-secondary" id="btn-decrease" title="Decrease by 1">
+                      <span class="btn-icon">−</span>
+                      <span class="btn-text">Decrease</span>
+                    </button>
+                    <button class="btn btn-primary" id="btn-increase" title="Increase by 1">
+                      <span class="btn-text">Increase</span>
+                      <span class="btn-icon">+</span>
+                    </button>
+                  </div>
+
+                  <div class="counter-secondary-controls">
+                    <button class="btn btn-small" id="btn-add10" title="Increase by 10">+10</button>
+                    <button class="btn btn-small" id="btn-sub10" title="Decrease by 10">−10</button>
+                    <button class="btn btn-small" id="btn-add5" title="Increase by 5">+5</button>
+                    <button class="btn btn-small" id="btn-sub5" title="Decrease by 5">−5</button>
+                  </div>
+
+                  <div class="counter-custom">
+                    <button class="btn btn-tertiary" id="btn-custom-toggle">Set Custom Value</button>
+                    <div id="custom-input-group" class="custom-input-group hidden">
+                      <input type="number" id="custom-value-input" placeholder="Enter a number">
+                      <button class="btn btn-small" id="btn-custom-set">Set</button>
+                    </div>
+                  </div>
+
+                  <div class="counter-actions">
+                    <button class="btn btn-reset" id="btn-reset">🔄 Reset</button>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Todo Tab -->
+            <section class="tab-content" id="todo-tab">
+              <div class="todo-container">
+                <div class="todo-card">
+                  <h2>Todo List</h2>
+
+                  <div class="todo-progress">
+                    <div class="progress-info">
+                      <span class="progress-label">Progress</span>
+                      <span class="progress-stat"><span id="completed-count">0</span> / <span id="total-count">0</span></span>
+                    </div>
+                    <div class="progress-bar">
+                      <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                  </div>
+
+                  <div class="todo-input-group">
+                    <input type="text" id="todo-input" placeholder="Add a new todo..." class="todo-input" maxlength="200">
+                    <button class="btn btn-primary" id="btn-add-todo">Add Todo</button>
+                  </div>
+
+                  <div class="todo-controls">
+                    <div class="control-group">
+                      <label for="sort-select">Sort by:</label>
+                      <select id="sort-select" class="select-control">
+                        <option value="date-desc">Newest First</option>
+                        <option value="date-asc">Oldest First</option>
+                        <option value="pending">Pending First</option>
+                        <option value="completed">Completed First</option>
+                      </select>
+                    </div>
+
+                    <div class="control-group">
+                      <label for="filter-select">Filter:</label>
+                      <select id="filter-select" class="select-control">
+                        <option value="all">All</option>
+                        <option value="pending">Pending</option>
+                        <option value="completed">Completed</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div id="todos-list" class="todos-list"></div>
+
+                  <div class="todo-empty" id="todo-empty">
+                    <p>No todos yet. Add one to get started!</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- History Tab -->
+            <section class="tab-content" id="history-tab">
+              <div class="history-container">
+                <div class="history-card">
+                  <div class="history-header">
+                    <h2>Counter History</h2>
+                    <div class="history-toggle">
+                      <button class="toggle-btn active" id="btn-stats-view">Stats</button>
+                      <button class="toggle-btn" id="btn-log-view">Log</button>
+                    </div>
+                  </div>
+
+                  <!-- Stats View -->
+                  <div class="stats-section" id="stats-section">
+                    <div id="stats-grid" class="stats-grid"></div>
+                    <div class="empty-state" id="stats-empty">
+                      <p class="empty-message">No counter history yet. Start counting!</p>
+                    </div>
+                  </div>
+
+                  <!-- Log View -->
+                  <div class="log-section hidden" id="log-section">
+                    <div class="log-controls">
+                      <span class="log-count" id="log-count">0 changes</span>
+                      <button class="btn btn-small btn-danger" id="btn-clear-history">Clear History</button>
+                    </div>
+                    <div id="history-log" class="history-log"></div>
+                    <div class="empty-state" id="log-empty">
+                      <p class="empty-message">No counter changes yet.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Settings Tab -->
+            <section class="tab-content" id="settings-tab">
+              <div class="settings-container">
+                <div class="settings-card">
+                  <h2>Settings</h2>
+
+                  <div class="settings-section">
+                    <h3>Appearance</h3>
+                    <div class="setting-item">
+                      <div class="setting-label">
+                        <span class="label-text">Theme</span>
+                        <span class="label-description">Choose your preferred color theme</span>
+                      </div>
+                      <div class="theme-options">
+                        <label class="theme-option">
+                          <input type="radio" name="theme" value="light" class="theme-radio">
+                          <span class="theme-label">☀️ Light</span>
+                        </label>
+                        <label class="theme-option">
+                          <input type="radio" name="theme" value="dark" class="theme-radio">
+                          <span class="theme-label">🌙 Dark</span>
+                        </label>
+                        <label class="theme-option">
+                          <input type="radio" name="theme" value="auto" class="theme-radio">
+                          <span class="theme-label">🔄 Auto</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="settings-section">
+                    <h3>Data Management</h3>
+                    <div class="setting-item">
+                      <div class="setting-label">
+                        <span class="label-text">Export Data</span>
+                        <span class="label-description">Download all your data as JSON</span>
+                      </div>
+                      <div class="setting-action">
+                        <button class="btn btn-primary" id="btn-export-data">📥 Export as JSON</button>
+                        <span class="success-message hidden" id="export-success">✓ Exported successfully!</span>
+                      </div>
+                    </div>
+
+                    <div class="setting-item">
+                      <div class="setting-label">
+                        <span class="label-text">Reset Application</span>
+                        <span class="label-description">Clear all data and reset to default state</span>
+                      </div>
+                      <div class="setting-action">
+                        <button class="btn btn-danger-large" id="btn-reset-app">🔄 Reset All Data</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="settings-section">
+                    <h3>About</h3>
+                    <div class="about-info">
+                      <div class="info-item">
+                        <span class="info-label">Application</span>
+                        <span class="info-value">Enhanced Dashboard App</span>
+                      </div>
+                      <div class="info-item">
+                        <span class="info-label">Version</span>
+                        <span class="info-value">3.0.0</span>
+                      </div>
+                      <div class="info-item">
+                        <span class="info-label">Built With</span>
+                        <span class="info-value">Vanilla JS, HTML, CSS</span>
+                      </div>
+                      <div class="info-item">
+                        <span class="info-label">License</span>
+                        <span class="info-value">MIT</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+          </main>
         </div>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+          <p>&copy; 2026 BuildathonAgentHQ. All rights reserved. | Vanilla JavaScript Dashboard</p>
+        </footer>
+
       </div>
     </div>
 
-    <!-- Main React App Script -->
-    <script type="module" src="/src/main.jsx"></script>
-    
+    <!-- Main JavaScript Application -->
+    <script type="module" src="/src/main.js"></script>
+
     <!-- Fallback for JavaScript Disabled -->
     <noscript>
       <div style="
@@ -125,22 +346,25 @@
       </div>
     </noscript>
 
-    <!-- Service Worker Registration (Optional PWA) -->
+    <!-- Service Worker Registration -->
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js').catch(() => {
-            // Service worker not available, continuing without PWA
-          });
+          navigator.serviceWorker.register('/sw.js').catch(() => {});
         });
       }
       
-      // Prevent layout shift by handling theme early
       const savedTheme = localStorage.getItem('theme') || 'light';
       const theme = savedTheme === 'auto' 
         ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
         : savedTheme;
       document.documentElement.setAttribute('data-theme', theme);
+      
+      window.addEventListener('load', () => {
+        const perfData = window.performance.timing;
+        const pageLoadTime = perfData.loadEventEnd - perfData.navigationStart;
+        console.log('Page load time:', pageLoadTime, 'ms');
+      });
     </script>
   </body>
 </html>
