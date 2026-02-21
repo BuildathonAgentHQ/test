@@ -98,6 +98,9 @@ export default function Counter({ count, onIncrement, onDecrement, onReset, onCu
                 type="number"
                 value={customValue}
                 onChange={(e) => setCustomValue(e.target.value)}
+                placeholder="Enter a number"
+                autoFocus
+                aria-label="Custom counter value"
                 onKeyPress={handleKeyPress}
                 placeholder="Enter value"
                 autoFocus

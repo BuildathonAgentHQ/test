@@ -14,5 +14,12 @@
   },
   "devDependencies": {
     "vite": "^5.0.0"
-  }
+  },
+  "license": "MIT",
+  "author": "BuildathonAgentHQ",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BuildathonAgentHQ/test.git"
+  },
+  "keywords": ["counter", "todo", "react", "vite", "dashboard"]
 }

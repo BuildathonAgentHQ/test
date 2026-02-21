@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { formatTime, calculateStats } from './utils';
+import { formatTime, calculateStats, generateReportData } from './utils';
 
 export default function History({ history, onClearHistory }) {
   const [showStats, setShowStats] = useState(true);

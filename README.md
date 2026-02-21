@@ -24,3 +24,16 @@ Files
 - [index.html](index.html)
 - [src/App.jsx](src/App.jsx)
 - [src/main.jsx](src/main.jsx)
+- [src/Counter.jsx](src/Counter.jsx) - Counter component
+- [src/TodoList.jsx](src/TodoList.jsx) - Todo management component
+- [src/History.jsx](src/History.jsx) - History tracking component
+- [src/Settings.jsx](src/Settings.jsx) - Settings and configuration
+
+Features
+
+- Counter with increment/decrement functionality
+- Todo list with add, toggle, and delete operations
+- History tracking with statistics
+- Theme switching (light/dark/auto)
+- Local storage persistence
+- Responsive design

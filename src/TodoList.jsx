@@ -39,6 +39,8 @@ export default function TodoList({ todos, onAddTodo, onToggleTodo, onDeleteTodo 
 
   const completedCount = todos.filter(t => t.completed).length;
   const totalCount = todos.length;
+  const completionPercentage = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+  const pendingCount = totalCount - completedCount;
 
   return (
     <div className="todo-container">

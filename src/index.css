@@ -98,6 +98,8 @@ body {
 
 .app-subtitle {
   font-size: 1rem;
+  opacity: 0.95;
+  letter-spacing: 0.3px;
   opacity: 0.9;
   font-weight: 400;
 }

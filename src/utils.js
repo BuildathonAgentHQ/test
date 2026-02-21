@@ -44,6 +44,18 @@ export const formatTime = (timestamp) => {
 /**
  * Calculate statistics from counter history
  */
+/**
+ * Generate a report with detailed statistics
+ */
+export const generateReportData = (history) => {
+  const stats = calculateStats(history);
+  return {
+    ...stats,
+    generatedAt: Date.now(),
+    historyCount: history.length
+  };
+};
+
 export const calculateStats = (history) => {
   if (history.length === 0) {
     return { max: 0, min: 0, avg: 0, total: 0 };

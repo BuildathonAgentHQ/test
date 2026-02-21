@@ -98,6 +98,17 @@ export default function App() {
     ));
   };
 
+  // Additional analytics function
+  const getAppAnalytics = () => {
+    return {
+      totalCounterChanges: history.length,
+      totalTodos: todos.length,
+      completedTodos: todos.filter(t => t.completed).length,
+      currentTheme: theme,
+      appStartTime: new Date().toISOString()
+    };
+  };
+
   const handleDeleteTodo = (id) => {
     setTodos(todos.filter(todo => todo.id !== id));
   };

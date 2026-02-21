@@ -13,8 +13,14 @@ export default function Settings({ theme, onThemeChange, appData }) {
 
   const handleResetApp = () => {
     if (window.confirm('Are you sure? This will clear all data. This action cannot be undone.')) {
-      onThemeChange('reset');
+      // Clear all localStorage items
+      localStorage.clear();
+      window.location.reload();
     }
+  };
+
+  const getAppVersion = () => {
+    return '2.0.0';
   };
 
   return (
