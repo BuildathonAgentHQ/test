@@ -1,6 +1,7 @@
 {
-  "name": "react-counter",
-  "version": "0.0.0",
+  "name": "enhanced-dashboard",
+  "version": "2.0.0",
+  "description": "A feature-rich dashboard app with counter, todo list, history tracking, and settings management",
   "private": true,
   "scripts": {
     "dev": "vite",

@@ -1,12 +1,141 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
+    <!-- Meta Tags -->
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>React Counter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="Enhanced Dashboard App - A feature-rich application with counter, todo list, history tracking, and settings management" />
+    <meta name="keywords" content="dashboard, counter, todo, app, productivity, react, vite" />
+    <meta name="author" content="BuildathonAgentHQ" />
+    <meta name="theme-color" content="#2563eb" />
+    
+    <!-- PWA Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Dashboard" />
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Enhanced Dashboard App" />
+    <meta property="og:description" content="A feature-rich dashboard with counter, todo list, and history tracking" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    
+    <!-- Favicon and Icons -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75' fill='%232563eb'>📊</text></svg>" />
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect fill='%232563eb' width='180' height='180' rx='40'/><text x='90' y='135' font-size='100' fill='white' text-anchor='middle'>📊</text></svg>" />
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" as="style" href="/src/index.css" />
+    <link rel="preload" as="script" href="/src/main.jsx" type="module" />
+    
+    <!-- SEO and Performance -->
+    <link rel="canonical" href="https://example.com/" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="dns-prefetch" href="https://example.com" />
+    
+    <!-- Title -->
+    <title>Enhanced Dashboard App - Counter, Todo & More</title>
+    
+    <!-- Inline Critical CSS for Faster Rendering -->
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body, #root { height: 100%; width: 100%; }
+      body { 
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+        background: #f7f7fb;
+        color: #1f2937;
+        overflow-x: hidden;
+      }
+      #root { display: flex; }
+      .app-loading {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #f7f7fb 0%, #ffffff 100%);
+      }
+      .loading-spinner {
+        width: 50px;
+        height: 50px;
+        border: 4px solid #e5e7eb;
+        border-top-color: #2563eb;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+      .loading-text {
+        position: absolute;
+        bottom: 20%;
+        font-size: 14px;
+        color: #6b7280;
+        font-weight: 500;
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <!-- Root Container for React App -->
+    <div id="root">
+      <!-- Loading State -->
+      <div class="app-loading">
+        <div>
+          <div class="loading-spinner"></div>
+          <p class="loading-text">Loading Dashboard...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main React App Script -->
     <script type="module" src="/src/main.jsx"></script>
+    
+    <!-- Fallback for JavaScript Disabled -->
+    <noscript>
+      <div style="
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: system-ui, sans-serif;
+        background: #f7f7fb;
+      ">
+        <div style="
+          text-align: center;
+          padding: 20px;
+          background: white;
+          border-radius: 8px;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          max-width: 400px;
+        ">
+          <h1 style="color: #1f2937; margin-bottom: 12px;">⚠️ JavaScript Required</h1>
+          <p style="color: #6b7280; line-height: 1.6;">
+            This application requires JavaScript to be enabled. 
+            Please enable JavaScript in your browser settings and try again.
+          </p>
+        </div>
+      </div>
+    </noscript>
+
+    <!-- Service Worker Registration (Optional PWA) -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(() => {
+            // Service worker not available, continuing without PWA
+          });
+        });
+      }
+      
+      // Prevent layout shift by handling theme early
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      const theme = savedTheme === 'auto' 
+        ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+        : savedTheme;
+      document.documentElement.setAttribute('data-theme', theme);
+    </script>
   </body>
 </html>
