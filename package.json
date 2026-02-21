@@ -8,13 +8,20 @@
     "build": "vite build",
     "preview": "vite preview",
     "server": "node server/index.js",
-    "server:dev": "node --watch server/index.js"
+    "server:dev": "node --watch server/index.js",
+    "test": "jest --forceExit"
   },
   "dependencies": {
     "express": "^4.18.2"
   },
   "devDependencies": {
+    "jest": "^29.0.0",
+    "supertest": "^6.3.0",
     "vite": "^5.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": ["**/server/tests/**/*.test.js"]
   },
   "license": "MIT",
   "author": "BuildathonAgentHQ",
