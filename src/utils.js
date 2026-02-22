@@ -150,14 +150,3 @@ export const getAppVersion = () => {
   return '3.0.0';
 };
 
- * Export data as JSON
- */
-export const exportData = (data, filename) => {
-  const element = document.createElement('a');
-  element.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(data, null, 2)));
-  element.setAttribute('download', filename);
-  element.style.display = 'none';
-  document.body.appendChild(element);
-  element.click();
-  document.body.removeChild(element);
-};
